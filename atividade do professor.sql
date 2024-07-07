@@ -2,7 +2,16 @@ create database sistema_gestao;
 use sistema_gestao;
 describe clientes;
 
+-- select em todas as tabelas 
 
+select * from produtos;
+select * from pedidos;
+select * from clientes;
+select * from estoque;
+
+-- DESATIVANDO O SQL SAFE UPDATES 
+
+SET SQL_SAFE_UPDATES = 0;
 
 -- 1°
 create table clientes (
@@ -15,6 +24,8 @@ create table clientes (
     cidade varchar(30),
     idade int
     );
+select * from clientes;     
+
 -- 2°
 create table pedidos(
 	id int primary key auto_increment,
@@ -89,11 +100,49 @@ insert into estoque values
 (7,50),
 (8,10),
 (8,30),
-(10,10);
+(10,10),
+(11,11);
+
+-- operações CRUD e consultas SQL - Operações CRUD
+
+-- INSERÇÃO
+INSERT INTO clientes (	id,nome,telefone,data_nascimento,estado_civil,sexo,cidade,idade) values
+	('1','miguel sousa silva', '86994911088','20040225','C','M','São Paulo','20');
 
 
--- consultas avançadas
+-- SELEÇÃO
+select * from clientes;
+select * from estoque;
 
-select * from clientes where idade > 30;
+-- ATUALIZAÇÃO
+update clientes set nome = 'Miguel de sousa da silva' where id = '1';
+
+-- EXCLUSÃO
+delete from estoque where produto_id = '11';
+drop table estoque;
 
 
+
+-- operações CRUD e consultas SQL - 4 Operações crud
+
+
+-- operações CRUD e consultas SQL - 5 consultas SQL avançadas
+
+SELECT * FROM clientes WHERE idade > 30; 
+Delete from pedidos where cliente_id = ‘3’ ;
+update produtos set preco =  preco + (preco * 0.1);
+
+
+
+-- operações CRUD e consultas SQL - 6.consultas expecíficas
+select * from produtos where preco order by preco desc;
+select * from estoque where quantidade_disponivel < 10;
+
+ -- Parte 5 - 9.AGREGAÇÕES E FUNÇÕES
+ 
+ select count(*) as 'QUANTIDADE DE CLIENTES' from clientes;
+ select sum(quantidade) as 'SOMA DOS PEDIDOS' from pedidos;
+ select avg(idade) as 'média da idades' from clientes;
+ SELECT MIN(idade) as 'Idade Mínima' FROM clientes;
+ SELECT MAX(idade) as 'Idade Máxima' FROM clientes;
+ select count(distinct cidade)as 'Quantidade de cidades' from clientes;
