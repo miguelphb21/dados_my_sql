@@ -178,8 +178,8 @@ ALTER TABLE clientes ADD COLUMN numero int;
 ALTER TABLE clientes ADD COLUMN bairro varchar(50);
 
 /* 2 - Agora fazer uma atualização em cada um dos bairros*/
-UPDATE `sistema_gestao`.`clientes` SET `rua` = 'Rua alanzoka', `numero` = '40', `bairro` = 'Bairro silva Sauro' WHERE (`id` = '7');
-UPDATE `sistema_gestao`.`clientes` SET `rua` = 'Rua Arlindomar' WHERE (`id` = '2');
+UPDATE clientes SET rua = 'Rua alanzoka', numero = '40', bairro = 'Bairro silva Sauro' WHERE (id = '7');
+UPDATE clientes SET rua = 'Rua Arlindomar' WHERE (id = '2');
 /* 3 - Agora iremos apagar a coluna endereco*/
 alter table clientes drop column endereco;
 
