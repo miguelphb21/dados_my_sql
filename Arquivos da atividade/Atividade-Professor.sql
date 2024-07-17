@@ -95,9 +95,10 @@ ALTER TABLE produtos ADD COLUMN id_fornecedor int AFTER preco;
 ALTER TABLE produtos ADD COLUMN fornecedor varchar(40) after id_fornecedor;
 ALTER TABLE produtos ADD COLUMN telefone_fornecedor VARCHAR(15);
 
--- INSERÇÃO DE DADOS
+/*  INSERÇÃO DE DADOS
 
--- TABELA CLIENTES /  ENDERECO
+	TABELA CLIENTES /  ENDERECO
+*/
 UPDATE clientes SET endereco = 'Rua santa Luzia,400,bairro do carmo' WHERE (id = '1');
 UPDATE clientes SET endereco = 'Rua massa fera, 320, bairro elaine' WHERE (id = '2');
 UPDATE clientes SET endereco = 'Rua santana do parnaíba,302,bairro sao jorge' WHERE (id = '3');
@@ -149,7 +150,7 @@ drop table estoque;
 -- operações CRUD e consultas SQL - 5 consultas SQL avançadas
 Update clientes set endereco = 'Rua Armando Bulamarque,300,Bairro Nossa senhora De fátima' where id = '3';
 SELECT * FROM clientes WHERE idade > 30; 
-Delete from pedidos where cliente_id = '3' ;
+Delete from pedidos where cliente_id = '3';
 update produtos set preco =  preco + (preco * 0.1);
 
 -- operações CRUD e consultas SQL - 6.consultas expecíficas
@@ -171,8 +172,9 @@ select * from estoque where quantidade_disponivel < 10;
  
 -- 1FN CLIENTE
 
-/* 1 - A Tabela endereco do cliente há uma anomalia, é um ATRIBUTO COMPOSTO pois há varias informaçôes dentro da coluna
-para corrigir isso criarei novas tabelas e desmembrarei as informações de endereço para preenche-las;*/
+/* 1 - A Tabela endereco do cliente há uma anomalia, é um ATRIBUTO COMPOSTO pois há varias informaçôes dentro da coluna.
+Para corrigir isso criarei novas tabelas e desmembrarei as informações de endereço para preenche-las;*/
+
 ALTER TABLE clientes ADD COLUMN rua varchar(50);
 ALTER TABLE clientes ADD COLUMN numero int; 
 ALTER TABLE clientes ADD COLUMN bairro varchar(50);
@@ -252,3 +254,56 @@ SELECT produto_id, quantidade_disponivel FROM estoque;
 
 DROP TABLE produtos;
 DROP TABLE estoque;
+
+
+-- Parte 4: Join e Relacionamentos
+-- 8. Utilização de JOINs
+
+-- 1. INNER JOIN: Selecione todos os clientes que fizeram pedidos, juntamente com os detalhes dos pedidos.
+SELECT 
+clientes.id,
+clientes.nome,
+pedidos_2fn.produto,
+pedidos_2fn.quantidade,
+pedidos_2fn.valor
+FROM clientes
+INNER JOIN pedidos_2fn
+ON pedidos_2fn.id_cliente = clientes.id;
+
+-- 2. LEFT JOIN: Liste todos os clientes, independentemente de terem feito pedidos ou não.
+
+SELECT 
+clientes.id,
+clientes.nome,
+pedidos_2fn.produto,
+pedidos_2fn.quantidade,
+pedidos_2fn.valor
+FROM clientes
+LEFT JOIN pedidos_2fn
+ON pedidos_2fn.id_cliente = clientes.id;
+
+-- 3. RIGHT JOIN: Encontre todos os produtos em estoque, juntamente com os detalhes dos produtos.
+
+SELECT
+estoque_3fn.*,
+produtos_3fn.*
+FROM estoque_3fn
+RIGHT JOIN produtos_3fn
+ON estoque_3FN.produto_id = produtos_3FN.id;
+
+-- 4. FULL JOIN: Combine os resultados de clientes e pedidos, mesmo aqueles sem correspondências (simulado com UNION).
+SELECT 
+pedidos_2FN.*,
+clientes_pedidos.*
+from clientes_pedidos
+inner join pedidos_2FN
+on pedidos_2FN.id_cliente = clientes_pedidos.id
+
+UNION
+
+SELECT 
+pedidos_2FN.*,
+clientes_pedidos.*
+from clientes_pedidos
+inner join pedidos_2FN
+on pedidos_2FN.id_cliente = clientes_pedidos.id;
